@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rock Paper Scissors - Beautiful Version</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    color:white;
+    text-align:center;
+}
+
+/* Title */
+h1{
+    margin-top:20px;
+    font-size:40px;
+    letter-spacing:2px;
+}
+
+/* Hands Section */
+.hands{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:150px;
+    margin-top:40px;
+}
+
+.hand-box{
+    text-align:center;
+}
+
+.hand-img{
+    width:200px;
+    height:200px;
+    transition:transform 0.4s ease, filter 0.4s ease;
+}
+
+.hand-img:hover{
+    transform:scale(1.1);
+    filter:drop-shadow(0 0 15px #fff);
+}
+
+.label{
+    margin-top:10px;
+    font-size:22px;
+}
+
+/* Buttons */
+.buttons{
+    margin-top:40px;
+}
+
+button{
+    padding:15px 30px;
+    margin:10px;
+    font-size:20px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    color:white;
+    transition:0.3s;
+}
+
+.rock{background:#ff4b5c;}
+.paper{background:#00c9a7;}
+.scissors{background:#f9a826;}
+.reset{background:white;color:black;}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+/* Result */
+.result{
+    margin-top:25px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+/* Score */
+.score{
+    margin-top:15px;
+    font-size:24px;
+}
+
+/* Winner */
+.winner{
+    margin-top:20px;
+    font-size:32px;
+    color:#ffd700;
+}
+
+</style>
+</head>
+<body>
+
+<h1>Rock Paper Scissors</h1>
+
+<div class="hands">
+
+<div class="hand-box">
+<img id="userHand" class="hand-img"
+src="https://cdn-icons-png.flaticon.com/512/727/727399.png">
+<div class="label">You</div>
+</div>
+
+<div class="hand-box">
+<img id="computerHand" class="hand-img"
+src="https://cdn-icons-png.flaticon.com/512/727/727399.png">
+<div class="label">Computer</div>
+</div>
+
+</div>
+
+<div class="buttons">
+<button class="rock" onclick="play('rock')">Rock</button>
+<button class="paper" onclick="play('paper')">Paper</button>
+<button class="scissors" onclick="play('scissors')">Scissors</button>
+</div>
+
+<div id="result" class="result">Choose your move</div>
+
+<div class="score">
+You: <span id="playerScore">0</span> |
+Computer: <span id="computerScore">0</span>
+</div>
+
+<div id="winner" class="winner"></div>
+
+<br>
+<button class="reset" onclick="resetGame()">Reset Game</button>
+
+<script>
+
+let playerScore=0;
+let computerScore=0;
+let gameOver=false;
+const WIN_SCORE=5;
+
+const images={
+rock:"https://cdn-icons-png.flaticon.com/512/727/727399.png",
+paper:"https://cdn-icons-png.flaticon.com/512/727/727408.png",
+scissors:"https://cdn-icons-png.flaticon.com/512/727/727406.png"
+};
+
+const choices=["rock","paper","scissors"];
+
+function play(playerChoice){
+
+if(gameOver) return;
+
+let computerChoice=
+choices[Math.floor(Math.random()*3)];
+
+document.getElementById("userHand").src=images[playerChoice];
+document.getElementById("computerHand").src=images[computerChoice];
+
+let result="";
+
+if(playerChoice===computerChoice){
+result="It's a Draw!";
+}
+else if(
+playerChoice==="rock"&&computerChoice==="scissors"||
+playerChoice==="paper"&&computerChoice==="rock"||
+playerChoice==="scissors"&&computerChoice==="paper"
+){
+result="You Win This Round!";
+playerScore++;
+}
+else{
+result="Computer Wins This Round!";
+computerScore++;
+}
+
+document.getElementById("result").innerText=result;
+document.getElementById("playerScore").innerText=playerScore;
+document.getElementById("computerScore").innerText=computerScore;
+
+checkWinner();
+}
+
+function checkWinner(){
+
+if(playerScore===WIN_SCORE){
+document.getElementById("winner").innerText=
+"🏆 Congratulations! You Won the Game!";
+gameOver=true;
+}
+
+else if(computerScore===WIN_SCORE){
+document.getElementById("winner").innerText=
+"💻 Computer Won the Game!";
+gameOver=true;
+}
+}
+
+function resetGame(){
+
+playerScore=0;
+computerScore=0;
+gameOver=false;
+
+document.getElementById("playerScore").innerText=0;
+document.getElementById("computerScore").innerText=0;
+document.getElementById("winner").innerText="";
+document.getElementById("result").innerText="Choose your move";
+
+document.getElementById("userHand").src=
+"https://cdn-icons-png.flaticon.com/512/727/727399.png";
+document.getElementById("computerHand").src=
+"https://cdn-icons-png.flaticon.com/512/727/727399.png";
+}
+
+</script>
+
+</body>
+</html>
